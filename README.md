@@ -173,17 +173,269 @@ Spine1#
 
 ![Spine2_cfg.PNG](Spine2_cfg.PNG)
 
+<details> 
+
+<summary> Проверка работы Spine2 </summary>
+
+```
+
+Spine2# sh ip ospf neighbors 
+ OSPF Process ID Underlay VRF default
+ Total number of neighbors: 3
+ Neighbor ID     Pri State            Up Time  Address         Interface
+ 3.3.3.3           1 FULL/ -          01:26:49 10.0.0.6        Eth1/1 
+ 4.4.4.4           1 FULL/ -          01:28:04 10.0.0.14       Eth1/2 
+ 5.5.5.5           1 FULL/ -          01:26:58 10.0.0.22       Eth1/3 
+Spine2#
+Spine2# sh ip ospf interface brief 
+ OSPF Process ID Underlay VRF default
+ Total number of interface: 3
+ Interface               ID     Area            Cost   State    Neighbors Status
+ Eth1/1                  3      0.0.0.0         40     P2P      1         up  
+ Eth1/2                  2      0.0.0.0         40     P2P      1         up  
+ Eth1/3                  1      0.0.0.0         40     P2P      1         up  
+
+Spine2# 
+Spine2# sh ip route 
+IP Route Table for VRF "default"
+'*' denotes best ucast next-hop
+'**' denotes best mcast next-hop
+'[x/y]' denotes [preference/metric]
+'%<string>' in via output denotes VRF <string>
+
+10.0.0.0/30, ubest/mbest: 1/0
+    *via 10.0.0.6, Eth1/1, [110/80], 01:27:11, ospf-Underlay, intra
+10.0.0.4/30, ubest/mbest: 1/0, attached
+    *via 10.0.0.5, Eth1/1, [0/0], 04:39:04, direct
+10.0.0.5/32, ubest/mbest: 1/0, attached
+    *via 10.0.0.5, Eth1/1, [0/0], 04:39:04, local
+10.0.0.8/30, ubest/mbest: 1/0
+    *via 10.0.0.14, Eth1/2, [110/80], 01:28:26, ospf-Underlay, intra
+10.0.0.12/30, ubest/mbest: 1/0, attached
+    *via 10.0.0.13, Eth1/2, [0/0], 04:39:03, direct
+10.0.0.13/32, ubest/mbest: 1/0, attached
+    *via 10.0.0.13, Eth1/2, [0/0], 04:39:03, local
+10.0.0.16/30, ubest/mbest: 1/0
+    *via 10.0.0.22, Eth1/3, [110/80], 01:27:25, ospf-Underlay, intra
+10.0.0.20/30, ubest/mbest: 1/0, attached
+    *via 10.0.0.21, Eth1/3, [0/0], 04:39:03, direct
+10.0.0.21/32, ubest/mbest: 1/0, attached
+    *via 10.0.0.21, Eth1/3, [0/0], 04:39:03, local
+
+Spine2#
+Spine2# sh ip ospf database 
+        OSPF Router with ID (2.2.2.2) (Process ID Underlay VRF default)
+
+                Router Link States (Area 0.0.0.0)
+
+Link ID         ADV Router      Age        Seq#       Checksum Link Count
+1.1.1.1         1.1.1.1         1607       0x80000013 0xd88e   6   
+2.2.2.2         2.2.2.2         1613       0x80000018 0xee53   6   
+3.3.3.3         3.3.3.3         1601       0x80000010 0xc361   4   
+4.4.4.4         4.4.4.4         1678       0x80000010 0x3bc1   4   
+5.5.5.5         5.5.5.5         1618       0x8000000e 0xb620   4   
+
+Spine2#
+
+```
+
+</details>
+
 #### Настройка Leaf1:
 
 ![Leaf1_cfg.PNG](Leaf1_cfg.PNG)
+
+<details> 
+
+<summary> Проверка работы Leaf1 </summary>
+
+```
+
+Leaf1# sh ip ospf neighbors 
+ OSPF Process ID Underlay VRF default
+ Total number of neighbors: 2
+ Neighbor ID     Pri State            Up Time  Address         Interface
+ 1.1.1.1           1 FULL/ -          01:50:01 10.0.0.1        Eth1/1 
+ 2.2.2.2           1 FULL/ -          01:50:04 10.0.0.5        Eth1/2 
+Leaf1# 
+Leaf1# sh ip route 
+IP Route Table for VRF "default"
+'*' denotes best ucast next-hop
+'**' denotes best mcast next-hop
+'[x/y]' denotes [preference/metric]
+'%<string>' in via output denotes VRF <string>
+
+10.0.0.0/30, ubest/mbest: 1/0, attached
+    *via 10.0.0.2, Eth1/1, [0/0], 01:50:24, direct
+10.0.0.2/32, ubest/mbest: 1/0, attached
+    *via 10.0.0.2, Eth1/1, [0/0], 01:50:24, local
+10.0.0.4/30, ubest/mbest: 1/0, attached
+    *via 10.0.0.6, Eth1/2, [0/0], 01:50:24, direct
+10.0.0.6/32, ubest/mbest: 1/0, attached
+    *via 10.0.0.6, Eth1/2, [0/0], 01:50:24, local
+10.0.0.8/30, ubest/mbest: 1/0
+    *via 10.0.0.1, Eth1/1, [110/80], 01:50:12, ospf-Underlay, intra
+10.0.0.12/30, ubest/mbest: 1/0
+    *via 10.0.0.5, Eth1/2, [110/80], 01:50:12, ospf-Underlay, intra
+10.0.0.16/30, ubest/mbest: 1/0
+    *via 10.0.0.1, Eth1/1, [110/80], 01:50:12, ospf-Underlay, intra
+10.0.0.20/30, ubest/mbest: 1/0
+    *via 10.0.0.5, Eth1/2, [110/80], 01:50:12, ospf-Underlay, intra
+
+Leaf1# 
+Leaf1# sh ip ospf int brief 
+ OSPF Process ID Underlay VRF default
+ Total number of interface: 2
+ Interface               ID     Area            Cost   State    Neighbors Status
+ Eth1/1                  2      0.0.0.0         40     P2P      1         up  
+ Eth1/2                  1      0.0.0.0         40     P2P      1         up  
+
+Leaf1# 
+Leaf1# sh ip ospf database 
+        OSPF Router with ID (3.3.3.3) (Process ID Underlay VRF default)
+
+                Router Link States (Area 0.0.0.0)
+
+Link ID         ADV Router      Age        Seq#       Checksum Link Count
+1.1.1.1         1.1.1.1         1185       0x80000014 0xd68f   6   
+2.2.2.2         2.2.2.2         1194       0x80000019 0xec54   6   
+3.3.3.3         3.3.3.3         1180       0x80000011 0xc162   4   
+4.4.4.4         4.4.4.4         1259       0x80000011 0x39c2   4   
+5.5.5.5         5.5.5.5         1199       0x8000000f 0xb421   4   
+
+Leaf1#
+
+```
+
+</details>
 
 #### Настройка Leaf2:
 
 ![Leaf2_cfg.PNG](Leaf2_cfg.PNG)
 
+<details> 
+
+<summary> Проверка работы Leaf2 </summary>
+
+```
+
+Leaf2# sh ip ospf neighbors 
+ OSPF Process ID Underlay VRF default
+ Total number of neighbors: 2
+ Neighbor ID     Pri State            Up Time  Address         Interface
+ 1.1.1.1           1 FULL/ -          02:06:23 10.0.0.9        Eth1/1 
+ 2.2.2.2           1 FULL/ -          02:06:22 10.0.0.13       Eth1/2 
+Leaf2# 
+Leaf2# sh ip route 
+IP Route Table for VRF "default"
+'*' denotes best ucast next-hop
+'**' denotes best mcast next-hop
+'[x/y]' denotes [preference/metric]
+'%<string>' in via output denotes VRF <string>
+
+10.0.0.0/30, ubest/mbest: 1/0
+    *via 10.0.0.9, Eth1/1, [110/80], 02:06:38, ospf-Underlay, intra
+10.0.0.4/30, ubest/mbest: 1/0
+    *via 10.0.0.13, Eth1/2, [110/80], 02:06:38, ospf-Underlay, intra
+10.0.0.8/30, ubest/mbest: 1/0, attached
+    *via 10.0.0.10, Eth1/1, [0/0], 02:06:56, direct
+10.0.0.10/32, ubest/mbest: 1/0, attached
+    *via 10.0.0.10, Eth1/1, [0/0], 02:06:56, local
+10.0.0.12/30, ubest/mbest: 1/0, attached
+    *via 10.0.0.14, Eth1/2, [0/0], 02:06:56, direct
+10.0.0.14/32, ubest/mbest: 1/0, attached
+    *via 10.0.0.14, Eth1/2, [0/0], 02:06:56, local
+10.0.0.16/30, ubest/mbest: 1/0
+    *via 10.0.0.9, Eth1/1, [110/80], 02:06:38, ospf-Underlay, intra
+10.0.0.20/30, ubest/mbest: 1/0
+    *via 10.0.0.13, Eth1/2, [110/80], 02:06:38, ospf-Underlay, intra
+
+Leaf2#
+Leaf2# sh ip ospf database 
+        OSPF Router with ID (4.4.4.4) (Process ID Underlay VRF default)
+
+                Router Link States (Area 0.0.0.0)
+
+Link ID         ADV Router      Age        Seq#       Checksum Link Count
+1.1.1.1         1.1.1.1         267        0x80000015 0xd490   6   
+2.2.2.2         2.2.2.2         275        0x8000001a 0xea55   6   
+3.3.3.3         3.3.3.3         263        0x80000012 0xbf63   4   
+4.4.4.4         4.4.4.4         338        0x80000012 0x37c3   4   
+5.5.5.5         5.5.5.5         280        0x80000010 0xb222   4   
+
+Leaf2# 
+
+```
+
+</details>
+
 #### Настройка Leaf3:
 
 ![Leaf3_cfg.PNG](Leaf3_cfg.PNG)
+
+<details> 
+
+<summary> Проверка работы Leaf3 </summary>
+
+```
+
+Leaf3# sh ip ospf neighbors 
+ OSPF Process ID Underlay VRF default
+ Total number of neighbors: 2
+ Neighbor ID     Pri State            Up Time  Address         Interface
+ 1.1.1.1           1 FULL/ -          02:10:52 10.0.0.17       Eth1/1 
+ 2.2.2.2           1 FULL/ -          02:10:45 10.0.0.21       Eth1/2 
+Leaf3# 
+Leaf3# sh ip route 
+IP Route Table for VRF "default"
+'*' denotes best ucast next-hop
+'**' denotes best mcast next-hop
+'[x/y]' denotes [preference/metric]
+'%<string>' in via output denotes VRF <string>
+
+10.0.0.0/30, ubest/mbest: 1/0
+    *via 10.0.0.17, Eth1/1, [110/80], 02:10:59, ospf-Underlay, intra
+10.0.0.4/30, ubest/mbest: 1/0
+    *via 10.0.0.21, Eth1/2, [110/80], 02:10:57, ospf-Underlay, intra
+10.0.0.8/30, ubest/mbest: 1/0
+    *via 10.0.0.17, Eth1/1, [110/80], 02:10:59, ospf-Underlay, intra
+10.0.0.12/30, ubest/mbest: 1/0
+    *via 10.0.0.21, Eth1/2, [110/80], 02:10:57, ospf-Underlay, intra
+10.0.0.16/30, ubest/mbest: 1/0, attached
+    *via 10.0.0.18, Eth1/1, [0/0], 02:11:15, direct
+10.0.0.18/32, ubest/mbest: 1/0, attached
+    *via 10.0.0.18, Eth1/1, [0/0], 02:11:15, local
+10.0.0.20/30, ubest/mbest: 1/0, attached
+    *via 10.0.0.22, Eth1/2, [0/0], 02:11:15, direct
+10.0.0.22/32, ubest/mbest: 1/0, attached
+    *via 10.0.0.22, Eth1/2, [0/0], 02:11:15, local
+
+Leaf3# 
+Leaf3# sh ip ospf interface brief 
+ OSPF Process ID Underlay VRF default
+ Total number of interface: 2
+ Interface               ID     Area            Cost   State    Neighbors Status
+ Eth1/1                  2      0.0.0.0         40     P2P      1         up  
+ Eth1/2                  1      0.0.0.0         40     P2P      1         up  
+
+Leaf3# 
+Leaf3# sh ip ospf database 
+        OSPF Router with ID (5.5.5.5) (Process ID Underlay VRF default)
+
+                Router Link States (Area 0.0.0.0)
+
+Link ID         ADV Router      Age        Seq#       Checksum Link Count
+1.1.1.1         1.1.1.1         610        0x80000015 0xd490   6   
+2.2.2.2         2.2.2.2         619        0x8000001a 0xea55   6   
+3.3.3.3         3.3.3.3         607        0x80000012 0xbf63   4   
+4.4.4.4         4.4.4.4         684        0x80000012 0x37c3   4   
+5.5.5.5         5.5.5.5         622        0x80000010 0xb222   4   
+
+Leaf3# 
+
+```
+
+</details>
 
 
 
