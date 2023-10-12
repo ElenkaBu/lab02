@@ -99,3 +99,28 @@ OSPF  в CLOS (задачи в Underlay):
 
 #### Настройка Spine1:
 
+![Spine1_cfg.PNG](Spine1_cfg.PNG)
+
+#### Настройка Spine2:
+
+![Spine2_cfg.PNG](Spine2_cfg.PNG)
+
+#### Настройка Leaf1:
+
+![Leaf1_cfg.PNG](Leaf1_cfg.PNG)
+
+#### Настройка Leaf2:
+
+![Leaf2_cfg.PNG](Leaf2_cfg.PNG)
+
+#### Настройка Leaf3:
+
+![Leaf3_cfg.PNG](Leaf3_cfg.PNG)
+
+
+
+
+
+
+
+
