@@ -101,6 +101,74 @@ OSPF  в CLOS (задачи в Underlay):
 
 ![Spine1_cfg.PNG](Spine1_cfg.PNG)
 
+<details> 
+
+<summary> Проверка работы Spine1 </summary>
+
+```
+
+Spine1# sh ip ospf neighbors 
+ OSPF Process ID Underlay VRF default
+ Total number of neighbors: 3
+ Neighbor ID     Pri State            Up Time  Address         Interface
+ 3.3.3.3           1 FULL/ -          01:19:55 10.0.0.2        Eth1/1 
+ 4.4.4.4           1 FULL/ -          01:21:15 10.0.0.10       Eth1/2 
+ 5.5.5.5           1 FULL/ -          01:20:15 10.0.0.18       Eth1/3 
+Spine1# 
+Spine1# sh ip ospf interface br
+ OSPF Process ID Underlay VRF default
+ Total number of interface: 3
+ Interface               ID     Area            Cost   State    Neighbors Status
+ Eth1/1                  1      0.0.0.0         40     P2P      1         up  
+ Eth1/2                  2      0.0.0.0         40     P2P      1         up  
+ Eth1/3                  3      0.0.0.0         40     P2P      1         up  
+
+Spine1#
+Spine1# sh ip route 
+IP Route Table for VRF "default"
+'*' denotes best ucast next-hop
+'**' denotes best mcast next-hop
+'[x/y]' denotes [preference/metric]
+'%<string>' in via output denotes VRF <string>
+
+10.0.0.0/30, ubest/mbest: 1/0, attached
+    *via 10.0.0.1, Eth1/1, [0/0], 05:18:50, direct
+10.0.0.1/32, ubest/mbest: 1/0, attached
+    *via 10.0.0.1, Eth1/1, [0/0], 05:18:50, local
+10.0.0.4/30, ubest/mbest: 1/0
+    *via 10.0.0.2, Eth1/1, [110/80], 01:20:14, ospf-Underlay, intra
+10.0.0.8/30, ubest/mbest: 1/0, attached
+    *via 10.0.0.9, Eth1/2, [0/0], 05:17:37, direct
+10.0.0.9/32, ubest/mbest: 1/0, attached
+    *via 10.0.0.9, Eth1/2, [0/0], 05:17:37, local
+10.0.0.12/30, ubest/mbest: 1/0
+    *via 10.0.0.10, Eth1/2, [110/80], 01:21:29, ospf-Underlay, intra
+10.0.0.16/30, ubest/mbest: 1/0, attached
+    *via 10.0.0.17, Eth1/3, [0/0], 05:16:53, direct
+10.0.0.17/32, ubest/mbest: 1/0, attached
+    *via 10.0.0.17, Eth1/3, [0/0], 05:16:53, local
+10.0.0.20/30, ubest/mbest: 1/0
+    *via 10.0.0.18, Eth1/3, [110/80], 01:20:30, ospf-Underlay, intra
+
+Spine1# 
+Spine1# sh ip ospf database 
+        OSPF Router with ID (1.1.1.1) (Process ID Underlay VRF default)
+
+                Router Link States (Area 0.0.0.0)
+
+Link ID         ADV Router      Age        Seq#       Checksum Link Count
+1.1.1.1         1.1.1.1         1200       0x80000013 0xd88e   6   
+2.2.2.2         2.2.2.2         1211       0x80000018 0xee53   6   
+3.3.3.3         3.3.3.3         1196       0x80000010 0xc361   4   
+4.4.4.4         4.4.4.4         1274       0x80000010 0x3bc1   4   
+5.5.5.5         5.5.5.5         1214       0x8000000e 0xb620   4   
+
+Spine1#
+
+```
+
+</details>
+
 #### Настройка Spine2:
 
 ![Spine2_cfg.PNG](Spine2_cfg.PNG)
